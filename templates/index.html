@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Controle Financeiro</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <div>
+                <h1>💰 Controle Financeiro</h1>
+                <p>Organize seus gastos mensais</p>
+            </div>
+
+            <a href="/pdf" class="btn-pdf">
+                📄 Gerar PDF
+            </a>
+
+        </header>
+
+
+        <section class="cards">
+
+            <div class="card">
+                <span>Renda mensal</span>
+
+                <strong>
+                    R$ {{ "%.2f"|format(renda)|replace(".", ",") }}
+                </strong>
+            </div>
+
+
+            <div class="card">
+                <span>Total de gastos</span>
+
+                <strong>
+                    R$ {{ "%.2f"|format(total)|replace(".", ",") }}
+                </strong>
+            </div>
+
+
+            <div class="card saldo">
+                <span>Saldo disponível</span>
+
+                <strong>
+                    R$ {{ "%.2f"|format(saldo)|replace(".", ",") }}
+                </strong>
+            </div>
+
+        </section>
+
+
+        <section class="form-area">
+
+            <h2>Minha renda</h2>
+
+            <form action="/renda" method="POST">
+
+                <input
+                    type="number"
+                    name="renda"
+                    step="0.01"
+                    placeholder="Ex: 3000"
+                    value="{{ renda }}"
+                    required
+                >
+
+                <button type="submit">
+                    Salvar renda
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section class="form-area">
+
+            <h2>Adicionar gasto</h2>
+
+            <form action="/adicionar" method="POST">
+
+                <div class="form-grid">
+
+                    <div>
+
+                        <label>Descrição</label>
+
+                        <input
+                            type="text"
+                            name="descricao"
+                            placeholder="Ex: Supermercado"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Categoria</label>
+
+                        <select name="categoria" required>
+
+                            <option value="">
+                                Selecione
+                            </option>
+
+                            <option value="Moradia">
+                                🏠 Moradia
+                            </option>
+
+                            <option value="Alimentação">
+                                🍔 Alimentação
+                            </option>
+
+                            <option value="Transporte">
+                                🚗 Transporte
+                            </option>
+
+                            <option value="Lazer">
+                                🎮 Lazer
+                            </option>
+
+                            <option value="Saúde">
+                                🏥 Saúde
+                            </option>
+
+                            <option value="Educação">
+                                📚 Educação
+                            </option>
+
+                            <option value="Contas">
+                                💡 Contas
+                            </option>
+
+                            <option value="Outros">
+                                📦 Outros
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Valor</label>
+
+                        <input
+                            type="number"
+                            name="valor"
+                            step="0.01"
+                            placeholder="Ex: 50"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Data</label>
+
+                        <input
+                            type="date"
+                            name="data"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="btn-adicionar">
+                    + Adicionar gasto
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section class="gastos">
+
+            <div class="titulo-gastos">
+
+                <div>
+                    <h2>Gastos cadastrados</h2>
+
+                    <p>
+                        {{ gastos|length }} gasto(s)
+                    </p>
+                </div>
+
+            </div>
+
+
+            {% if gastos %}
+
+            <div class="tabela-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Valor</th>
+                            <th>Ação</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for gasto in gastos %}
+
+                        <tr>
+
+                            <td>
+                                {{ gasto["data"] }}
+                            </td>
+
+                            <td>
+                                {{ gasto["descricao"] }}
+                            </td>
+
+                            <td>
+                                {{ gasto["categoria"] }}
+                            </td>
+
+                            <td class="valor">
+
+                                R$
+                                {{ "%.2f"|format(gasto["valor"])|replace(".", ",") }}
+
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="/excluir/{{ gasto['id'] }}"
+                                    class="btn-excluir"
+                                    onclick="return confirmarExclusao()"
+                                >
+                                    Excluir
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="sem-gastos">
+
+                <div class="icone">
+                    💸
+                </div>
+
+                <h3>Nenhum gasto cadastrado</h3>
+
+                <p>
+                    Adicione seu primeiro gasto acima.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}"
+    ></script>
+
+</body>
+
+</html>
