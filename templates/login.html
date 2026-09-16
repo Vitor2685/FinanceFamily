@@ -1,0 +1,415 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finora | Entrar</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body class="login-page">
+
+
+    <div class="login-background">
+
+        <div class="login-glow login-glow-one"></div>
+
+        <div class="login-glow login-glow-two"></div>
+
+        <div class="login-grid"></div>
+
+    </div>
+
+
+    <main class="login-container">
+
+
+        <!-- ==========================================
+             LADO ESQUERDO
+        =========================================== -->
+
+        <section class="login-showcase">
+
+
+            <div class="login-brand">
+
+                <div class="login-brand-icon">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+
+                <span>Finora</span>
+
+            </div>
+
+
+            <div class="login-showcase-content">
+
+
+                <span class="login-eyebrow">
+                    FINANCE SYSTEM
+                </span>
+
+
+                <h1>
+                    Sua vida financeira,
+                    <span>mais inteligente.</span>
+                </h1>
+
+
+                <p>
+                    Organize seus gastos, acompanhe seus números
+                    e tenha uma visão clara das suas finanças
+                    em um único lugar.
+                </p>
+
+
+                <div class="login-features">
+
+
+                    <div class="login-feature">
+
+                        <div class="login-feature-icon">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+
+                        <div class="login-feature-text">
+
+                            <strong>
+                                Controle completo
+                            </strong>
+
+                            <span>
+                                Visualize seus gastos de forma simples.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="login-feature">
+
+                        <div class="login-feature-icon">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+
+                        <div class="login-feature-text">
+
+                            <strong>
+                                Rápido e intuitivo
+                            </strong>
+
+                            <span>
+                                Registre suas movimentações em segundos.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="login-feature">
+
+                        <div class="login-feature-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <div class="login-feature-text">
+
+                            <strong>
+                                Seus dados protegidos
+                            </strong>
+
+                            <span>
+                                Cada usuário possui seu próprio acesso.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <footer class="login-showcase-footer">
+
+                <span>
+                    © 2026 Finora
+                </span>
+
+                <span>
+                    Finance System
+                </span>
+
+            </footer>
+
+
+        </section>
+
+
+        <!-- ==========================================
+             LADO DIREITO
+        =========================================== -->
+
+        <section class="login-panel">
+
+
+            <div class="login-card">
+
+
+                <div class="login-mobile-brand">
+
+                    <div class="login-brand-icon">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+
+                    <span>Finora</span>
+
+                </div>
+
+
+                <div class="login-header">
+
+                    <span class="login-label">
+                        ACESSO À CONTA
+                    </span>
+
+                    <h2>
+                        Bem-vindo de volta
+                    </h2>
+
+                    <p>
+                        Entre para acessar seu painel financeiro.
+                    </p>
+
+                </div>
+
+
+                {% with messages = get_flashed_messages() %}
+
+                    {% if messages %}
+
+                        <div class="login-message">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            <span>
+                                {{ messages[0] }}
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+                {% endwith %}
+
+
+                <form method="POST"
+                      action="{{ url_for('login') }}"
+                      class="login-form">
+
+
+                    <!-- E-MAIL -->
+
+                    <div class="login-field">
+
+                        <label for="email">
+                            E-mail
+                        </label>
+
+
+                        <div class="login-input">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="seu@email.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SENHA -->
+
+                    <div class="login-field">
+
+                        <div class="login-password-header">
+
+                            <label for="senha">
+                                Senha
+                            </label>
+
+                            <a href="#">
+                                Esqueci minha senha
+                            </a>
+
+                        </div>
+
+
+                        <div class="login-input">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Digite sua senha"
+                                autocomplete="current-password"
+                                required
+                            >
+
+
+                            <button
+                                type="button"
+                                class="login-password-toggle"
+                                id="togglePassword"
+                                aria-label="Mostrar senha">
+
+                                <i class="fa-regular fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOTÃO -->
+
+                    <button
+                        type="submit"
+                        class="login-submit">
+
+                        <span>
+                            Entrar na minha conta
+                        </span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                </form>
+
+
+                <!-- DIVISOR -->
+
+                <div class="login-divider">
+
+                    <span>
+                        NOVO POR AQUI?
+                    </span>
+
+                </div>
+
+
+                <!-- CADASTRO -->
+
+                <a href="{{ url_for('cadastro') }}"
+                   class="login-create">
+
+                    <span>
+                        Criar minha conta
+                    </span>
+
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                </a>
+
+
+                <!-- SEGURANÇA -->
+
+                <div class="login-security">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <span>
+                        Acesso seguro e individual
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const toggle =
+                document.getElementById("togglePassword");
+
+            const password =
+                document.getElementById("senha");
+
+
+            if (toggle && password) {
+
+                toggle.addEventListener("click", function () {
+
+                    const showing =
+                        password.type === "text";
+
+
+                    password.type =
+                        showing ? "password" : "text";
+
+
+                    toggle.innerHTML =
+                        showing
+                        ? '<i class="fa-regular fa-eye"></i>'
+                        : '<i class="fa-regular fa-eye-slash"></i>';
+
+                });
+
+            }
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>
+```

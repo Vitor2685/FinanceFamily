@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Finora | Criar conta</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body class="auth-body">
+
+
+<div class="auth-background">
+
+    <div class="auth-glow glow-one"></div>
+
+    <div class="auth-glow glow-two"></div>
+
+    <div class="auth-grid"></div>
+
+</div>
+
+
+<div class="auth-container">
+
+
+    <!-- LADO ESQUERDO -->
+
+    <div class="auth-showcase">
+
+        <div class="showcase-brand">
+
+            <div class="brand-icon">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+            </div>
+
+            <span>
+                Finora
+            </span>
+
+        </div>
+
+
+        <div class="showcase-content">
+
+            <span class="showcase-eyebrow">
+                COMEÇE AGORA
+            </span>
+
+            <h1>
+                Construa uma relação
+                <span>melhor com seu dinheiro.</span>
+            </h1>
+
+            <p>
+                Crie sua conta gratuitamente e comece
+                a organizar seus gastos de maneira
+                simples, visual e inteligente.
+            </p>
+
+
+            <div class="showcase-stat">
+
+                <div class="stat-circle">
+
+                    <i class="fa-solid fa-chart-pie"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Seu dinheiro.
+                    </strong>
+
+                    <span>
+                        Sua visão.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="floating-card floating-one">
+
+                <div class="floating-icon">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+
+                <div>
+                    <small>
+                        ORGANIZAÇÃO
+                    </small>
+
+                    <strong>
+                        Tudo em um só lugar
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="floating-card floating-two">
+
+                <div class="floating-icon">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+
+                <div>
+                    <small>
+                        CONTROLE
+                    </small>
+
+                    <strong>
+                        Seus gastos organizados
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="showcase-footer">
+
+            <span>
+                © 2026 Finora
+            </span>
+
+            <span>
+                Finance System
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- LADO DIREITO -->
+
+    <div class="auth-panel">
+
+
+        <div class="auth-card">
+
+
+            <div class="auth-card-header">
+
+                <div class="auth-mobile-logo">
+
+                    <div class="brand-icon">
+
+                        <i class="fa-solid fa-chart-pie"></i>
+
+                    </div>
+
+                    <span>
+                        Finora
+                    </span>
+
+                </div>
+
+
+                <span class="auth-label">
+                    NOVA CONTA
+                </span>
+
+                <h2>
+                    Crie sua conta
+                </h2>
+
+                <p>
+                    Preencha seus dados para começar.
+                </p>
+
+            </div>
+
+
+            {% with messages = get_flashed_messages() %}
+
+                {% if messages %}
+
+                    <div class="flash-message">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span>
+                            {{ messages[0] }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form method="POST"
+                  action="{{ url_for('cadastro') }}">
+
+
+                <div class="auth-form-group">
+
+                    <label for="nome">
+                        Nome completo
+                    </label>
+
+                    <div class="auth-input">
+
+                        <i class="fa-regular fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            placeholder="Digite seu nome"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="auth-form-group">
+
+                    <label for="email">
+                        E-mail
+                    </label>
+
+                    <div class="auth-input">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="seu@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="auth-form-group">
+
+                    <label for="senha">
+                        Senha
+                    </label>
+
+                    <div class="auth-input">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="Mínimo de 6 caracteres"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword">
+
+                            <i class="fa-regular fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="password-strength">
+
+                    <div class="strength-bar">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                    <small id="passwordText">
+                        Digite uma senha com pelo menos 6 caracteres.
+                    </small>
+
+                </div>
+
+
+                <div class="terms">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <span>
+                        Seus dados serão utilizados apenas
+                        para gerenciamento da sua conta.
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-submit">
+
+                    <span>
+                        Criar minha conta
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+
+            </form>
+
+
+            <div class="auth-divider">
+
+                <span>
+                    JÁ POSSUI UMA CONTA?
+                </span>
+
+            </div>
+
+
+            <a href="{{ url_for('login') }}"
+               class="create-account">
+
+                <span>
+                    Voltar para o login
+                </span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+
+            <div class="auth-security">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <span>
+                    Seus dados permanecem privados
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    const toggle =
+        document.getElementById("togglePassword");
+
+    const password =
+        document.getElementById("senha");
+
+    const bars =
+        document.querySelectorAll(
+            ".strength-bar span"
+        );
+
+    const text =
+        document.getElementById("passwordText");
+
+
+    if (toggle && password) {
+
+        toggle.addEventListener("click", function() {
+
+            const isPassword =
+                password.type === "password";
+
+
+            password.type =
+                isPassword ? "text" : "password";
+
+
+            this.innerHTML =
+                isPassword
+                ? '<i class="fa-regular fa-eye-slash"></i>'
+                : '<i class="fa-regular fa-eye"></i>';
+
+        });
+
+    }
+
+
+    if (password) {
+
+        password.addEventListener("input", function() {
+
+            const length =
+                this.value.length;
+
+
+            bars.forEach(bar => {
+
+                bar.classList.remove(
+                    "active",
+                    "strong"
+                );
+
+            });
+
+
+            if (length === 0) {
+
+                text.textContent =
+                    "Digite uma senha com pelo menos 6 caracteres.";
+
+                return;
+
+            }
+
+
+            if (length < 6) {
+
+                bars[0].classList.add("active");
+
+                text.textContent =
+                    "Senha muito curta.";
+
+                return;
+
+            }
+
+
+            if (length < 8) {
+
+                bars[0].classList.add("active");
+                bars[1].classList.add("active");
+
+                text.textContent =
+                    "Senha razoável.";
+
+                return;
+
+            }
+
+
+            if (length < 11) {
+
+                bars[0].classList.add("active");
+                bars[1].classList.add("active");
+                bars[2].classList.add("active");
+
+                text.textContent =
+                    "Senha forte.";
+
+                return;
+
+            }
+
+
+            bars.forEach(bar => {
+
+                bar.classList.add(
+                    "active",
+                    "strong"
+                );
+
+            });
+
+
+            text.textContent =
+                "Senha muito forte.";
+
+        });
+
+    }
+
+});
+
+</script>
+
+
+</body>
+
+</html>

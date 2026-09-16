@@ -1,312 +1,1095 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Controle Financeiro</title>
+    <title>Finance Family | Dashboard</title>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-    <div class="container">
+<div class="app">
 
-        <header>
+    <!-- ================= SIDEBAR ================= -->
 
-            <div>
-                <h1>💰 Controle Financeiro</h1>
-                <p>Organize seus gastos mensais</p>
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-chart-pie"></i>
             </div>
 
-            <a href="/pdf" class="btn-pdf">
-                📄 Gerar PDF
-            </a>
+            <div>
+                <span class="brand-name">Finance Family</span>
+                <span class="brand-subtitle">Finance System</span>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="sidebar-title">MENU</span>
+
+            <nav>
+
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">
+                        <i class="fa-solid fa-grid-2"></i>
+                    </span>
+
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="#transacoes" class="nav-item">
+                    <span class="nav-icon">
+                        <i class="fa-solid fa-wallet"></i>
+                    </span>
+
+                    <span>Meus gastos</span>
+                </a>
+
+                <a href="#categorias" class="nav-item">
+                    <span class="nav-icon">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </span>
+
+                    <span>Categorias</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </span>
+
+                    <span>Relatórios</span>
+
+                    <span class="coming">
+                        Em breve
+                    </span>
+                </a>
+
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+
+            <span class="sidebar-title">CONTA</span>
+
+            <nav>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+
+                    <span>Meu perfil</span>
+                </a>
+
+                <a href="{{ url_for('logout') }}" class="nav-item logout">
+                    <span class="nav-icon">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </span>
+
+                    <span>Sair</span>
+                </a>
+
+            </nav>
+
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <div class="pro-card">
+
+                <div class="pro-glow"></div>
+
+                <div class="pro-icon">
+                    <i class="fa-solid fa-sparkles"></i>
+                </div>
+
+                <div class="pro-text">
+                    <strong>Finora Premium</strong>
+                    <span>Mais recursos em breve.</span>
+                </div>
+
+                <button>
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </button>
+
+            </div>
+
+            <div class="sidebar-footer">
+                <span>Finora © 2026</span>
+                <span>v1.0</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- MOBILE HEADER -->
+
+        <header class="mobile-header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+
+                <span class="brand-name">Finora</span>
+
+            </div>
+
+            <button class="mobile-menu" id="mobileMenu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
 
         </header>
 
 
-        <section class="cards">
+        <!-- TOPBAR -->
 
-            <div class="card">
-                <span>Renda mensal</span>
+        <header class="topbar">
 
-                <strong>
-                    R$ {{ "%.2f"|format(renda)|replace(".", ",") }}
-                </strong>
-            </div>
+            <div class="page-title">
 
+                <span class="eyebrow">
+                    VISÃO GERAL
+                </span>
 
-            <div class="card">
-                <span>Total de gastos</span>
-
-                <strong>
-                    R$ {{ "%.2f"|format(total)|replace(".", ",") }}
-                </strong>
-            </div>
-
-
-            <div class="card saldo">
-                <span>Saldo disponível</span>
-
-                <strong>
-                    R$ {{ "%.2f"|format(saldo)|replace(".", ",") }}
-                </strong>
-            </div>
-
-        </section>
-
-
-        <section class="form-area">
-
-            <h2>Minha renda</h2>
-
-            <form action="/renda" method="POST">
-
-                <input
-                    type="number"
-                    name="renda"
-                    step="0.01"
-                    placeholder="Ex: 3000"
-                    value="{{ renda }}"
-                    required
-                >
-
-                <button type="submit">
-                    Salvar renda
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <section class="form-area">
-
-            <h2>Adicionar gasto</h2>
-
-            <form action="/adicionar" method="POST">
-
-                <div class="form-grid">
-
-                    <div>
-
-                        <label>Descrição</label>
-
-                        <input
-                            type="text"
-                            name="descricao"
-                            placeholder="Ex: Supermercado"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div>
-
-                        <label>Categoria</label>
-
-                        <select name="categoria" required>
-
-                            <option value="">
-                                Selecione
-                            </option>
-
-                            <option value="Moradia">
-                                🏠 Moradia
-                            </option>
-
-                            <option value="Alimentação">
-                                🍔 Alimentação
-                            </option>
-
-                            <option value="Transporte">
-                                🚗 Transporte
-                            </option>
-
-                            <option value="Lazer">
-                                🎮 Lazer
-                            </option>
-
-                            <option value="Saúde">
-                                🏥 Saúde
-                            </option>
-
-                            <option value="Educação">
-                                📚 Educação
-                            </option>
-
-                            <option value="Contas">
-                                💡 Contas
-                            </option>
-
-                            <option value="Outros">
-                                📦 Outros
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div>
-
-                        <label>Valor</label>
-
-                        <input
-                            type="number"
-                            name="valor"
-                            step="0.01"
-                            placeholder="Ex: 50"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div>
-
-                        <label>Data</label>
-
-                        <input
-                            type="date"
-                            name="data"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <button type="submit" class="btn-adicionar">
-                    + Adicionar gasto
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <section class="gastos">
-
-            <div class="titulo-gastos">
-
-                <div>
-                    <h2>Gastos cadastrados</h2>
-
-                    <p>
-                        {{ gastos|length }} gasto(s)
-                    </p>
-                </div>
-
-            </div>
-
-
-            {% if gastos %}
-
-            <div class="tabela-container">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Categoria</th>
-                            <th>Valor</th>
-                            <th>Ação</th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        {% for gasto in gastos %}
-
-                        <tr>
-
-                            <td>
-                                {{ gasto["data"] }}
-                            </td>
-
-                            <td>
-                                {{ gasto["descricao"] }}
-                            </td>
-
-                            <td>
-                                {{ gasto["categoria"] }}
-                            </td>
-
-                            <td class="valor">
-
-                                R$
-                                {{ "%.2f"|format(gasto["valor"])|replace(".", ",") }}
-
-                            </td>
-
-                            <td>
-
-                                <a
-                                    href="/excluir/{{ gasto['id'] }}"
-                                    class="btn-excluir"
-                                    onclick="return confirmarExclusao()"
-                                >
-                                    Excluir
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-            {% else %}
-
-            <div class="sem-gastos">
-
-                <div class="icone">
-                    💸
-                </div>
-
-                <h3>Nenhum gasto cadastrado</h3>
+                <h1>
+                    Olá, {{ current_user.nome.split(' ')[0] }} 👋
+                </h1>
 
                 <p>
-                    Adicione seu primeiro gasto acima.
+                    Acompanhe sua vida financeira em um só lugar.
                 </p>
 
             </div>
 
-            {% endif %}
+
+            <div class="top-actions">
+
+                <button class="icon-button">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="user-profile">
+
+                    <div class="avatar">
+                        {{ current_user.nome[0]|upper }}
+                    </div>
+
+                    <div class="user-info">
+                        <strong>{{ current_user.nome }}</strong>
+                        <span>{{ current_user.email }}</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-down profile-arrow"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+
+            <!-- ================= HERO BALANCE ================= -->
+
+            <div class="balance-card">
+
+                <div class="balance-background"></div>
+
+                <div class="balance-content">
+
+                    <div class="balance-left">
+
+                        <div class="balance-label">
+
+                            <span class="balance-icon">
+                                <i class="fa-solid fa-wallet"></i>
+                            </span>
+
+                            <span>
+                                Total de gastos
+                            </span>
+
+                            <button class="eye-button" id="toggleBalance">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+
+                        </div>
+
+                        <div class="balance-value" id="balanceValue">
+
+                            R$
+                            {{ "%.2f"|format(total)|replace(".", ",") }}
+
+                        </div>
+
+                        <div class="balance-status">
+
+                            <span class="status-dot"></span>
+
+                            <span>
+                                Atualizado agora
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="balance-right">
+
+                        <div class="mini-chart">
+
+                            <div class="chart-line"></div>
+
+                            <div class="chart-point point-1"></div>
+                            <div class="chart-point point-2"></div>
+                            <div class="chart-point point-3"></div>
+                            <div class="chart-point point-4"></div>
+                            <div class="chart-point point-5"></div>
+                            <div class="chart-point point-6"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= STAT CARDS ================= -->
+
+            <div class="stats-grid">
+
+
+                <!-- GASTOS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon expenses">
+                            <i class="fa-solid fa-arrow-trend-down"></i>
+                        </div>
+
+                        <span class="stat-period">
+                            Este mês
+                        </span>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-label">
+                            Despesas
+                        </span>
+
+                        <strong>
+                            R$ {{ "%.2f"|format(total)|replace(".", ",") }}
+                        </strong>
+
+                    </div>
+
+                    <div class="stat-footer">
+                        <span class="neutral">
+                            <i class="fa-solid fa-minus"></i>
+                            Total registrado
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- TRANSAÇÕES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon transactions">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+
+                        <span class="stat-period">
+                            Histórico
+                        </span>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-label">
+                            Transações
+                        </span>
+
+                        <strong>
+                            {{ gastos|length }}
+                        </strong>
+
+                    </div>
+
+                    <div class="stat-footer">
+
+                        <span class="positive">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Registros salvos
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CATEGORIAS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon categories">
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+
+                        <span class="stat-period">
+                            Organização
+                        </span>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-label">
+                            Categorias
+                        </span>
+
+                        <strong>
+                            9
+                        </strong>
+
+                    </div>
+
+                    <div class="stat-footer">
+
+                        <span class="positive">
+                            <i class="fa-solid fa-layer-group"></i>
+                            Disponíveis
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon security">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <span class="stat-period">
+                            Sistema
+                        </span>
+
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span class="stat-label">
+                            Segurança
+                        </span>
+
+                        <strong class="security-text">
+                            Ativa
+                        </strong>
+
+                    </div>
+
+                    <div class="stat-footer">
+
+                        <span class="positive">
+                            <i class="fa-solid fa-lock"></i>
+                            Conta protegida
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= TWO COLUMNS ================= -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- ================= CATEGORIAS ================= -->
+
+                <div class="dashboard-card categories-card" id="categorias">
+
+                    <div class="card-header">
+
+                        <div>
+                            <span class="card-eyebrow">
+                                DISTRIBUIÇÃO
+                            </span>
+
+                            <h2>
+                                Categorias
+                            </h2>
+                        </div>
+
+                        <button class="more-button">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="category-list">
+
+
+                        <div class="category-row">
+
+                            <div class="category-info">
+
+                                <div class="category-image food">
+                                    <i class="fa-solid fa-utensils"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Alimentação</strong>
+                                    <span>Comidas e restaurantes</span>
+                                </div>
+
+                            </div>
+
+                            <div class="category-value">
+                                <strong>R$ 0,00</strong>
+
+                                <div class="progress">
+                                    <div style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="category-row">
+
+                            <div class="category-info">
+
+                                <div class="category-image transport">
+                                    <i class="fa-solid fa-car"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Transporte</strong>
+                                    <span>Combustível e deslocamento</span>
+                                </div>
+
+                            </div>
+
+                            <div class="category-value">
+
+                                <strong>R$ 0,00</strong>
+
+                                <div class="progress">
+                                    <div style="width: 0%"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="category-row">
+
+                            <div class="category-info">
+
+                                <div class="category-image home">
+                                    <i class="fa-solid fa-house"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Moradia</strong>
+                                    <span>Casa e manutenção</span>
+                                </div>
+
+                            </div>
+
+                            <div class="category-value">
+
+                                <strong>R$ 0,00</strong>
+
+                                <div class="progress">
+                                    <div style="width: 0%"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="category-row">
+
+                            <div class="category-info">
+
+                                <div class="category-image shopping">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Compras</strong>
+                                    <span>Produtos e serviços</span>
+                                </div>
+
+                            </div>
+
+                            <div class="category-value">
+
+                                <strong>R$ 0,00</strong>
+
+                                <div class="progress">
+                                    <div style="width: 0%"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="category-row">
+
+                            <div class="category-info">
+
+                                <div class="category-image leisure">
+                                    <i class="fa-solid fa-gamepad"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Lazer</strong>
+                                    <span>Diversão e entretenimento</span>
+                                </div>
+
+                            </div>
+
+                            <div class="category-value">
+
+                                <strong>R$ 0,00</strong>
+
+                                <div class="progress">
+                                    <div style="width: 0%"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <button class="view-all">
+                        Ver todas as categorias
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+
+                <!-- ================= QUICK ACTION ================= -->
+
+                <div class="dashboard-card quick-card">
+
+                    <div class="quick-background"></div>
+
+                    <div class="quick-content">
+
+                        <div class="quick-icon">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+
+                        <span class="card-eyebrow">
+                            AÇÃO RÁPIDA
+                        </span>
+
+                        <h2>
+                            Registre um novo gasto
+                        </h2>
+
+                        <p>
+                            Mantenha seu controle financeiro atualizado adicionando uma nova despesa.
+                        </p>
+
+                        <button class="primary-button" id="openExpense">
+
+                            <span>
+                                <i class="fa-solid fa-plus"></i>
+                                Adicionar gasto
+                            </span>
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= TRANSACTIONS ================= -->
+
+            <div class="dashboard-card transactions-card" id="transacoes">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-eyebrow">
+                            MOVIMENTAÇÕES
+                        </span>
+
+                        <h2>
+                            Gastos recentes
+                        </h2>
+
+                    </div>
+
+                    <button class="filter-button">
+
+                        <i class="fa-solid fa-sliders"></i>
+
+                        Filtrar
+
+                    </button>
+
+                </div>
+
+
+                {% if gastos %}
+
+                <div class="transactions-list">
+
+                    {% for gasto in gastos %}
+
+                    <div class="transaction">
+
+                        <div class="transaction-left">
+
+                            <div class="transaction-icon">
+
+                                {% if gasto["categoria"] == "Alimentação" %}
+                                    <i class="fa-solid fa-utensils"></i>
+
+                                {% elif gasto["categoria"] == "Transporte" %}
+                                    <i class="fa-solid fa-car"></i>
+
+                                {% elif gasto["categoria"] == "Moradia" %}
+                                    <i class="fa-solid fa-house"></i>
+
+                                {% elif gasto["categoria"] == "Lazer" %}
+                                    <i class="fa-solid fa-gamepad"></i>
+
+                                {% elif gasto["categoria"] == "Compras" %}
+                                    <i class="fa-solid fa-bag-shopping"></i>
+
+                                {% elif gasto["categoria"] == "Contas" %}
+                                    <i class="fa-solid fa-lightbulb"></i>
+
+                                {% elif gasto["categoria"] == "Educação" %}
+                                    <i class="fa-solid fa-book"></i>
+
+                                {% elif gasto["categoria"] == "Saúde" %}
+                                    <i class="fa-solid fa-heart-pulse"></i>
+
+                                {% else %}
+                                    <i class="fa-solid fa-box"></i>
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="transaction-info">
+
+                                <strong>
+                                    {{ gasto["descricao"] }}
+                                </strong>
+
+                                <span>
+                                    {{ gasto["categoria"] or "Outros" }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="transaction-center">
+
+                            <span>
+                                Despesa
+                            </span>
+
+                        </div>
+
+
+                        <div class="transaction-right">
+
+                            <strong class="expense-value">
+                                - R$ {{ "%.2f"|format(gasto["valor"])|replace(".", ",") }}
+                            </strong>
+
+                            <a href="{{ url_for('excluir', gasto_id=gasto['id']) }}"
+                               class="delete-button"
+                               onclick="return confirm('Deseja realmente excluir este gasto?');">
+
+                                <i class="fa-regular fa-trash-can"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+
+                    <h3>
+                        Nenhum gasto registrado
+                    </h3>
+
+                    <p>
+                        Comece adicionando seu primeiro gasto.
+                    </p>
+
+                    <button class="primary-button" id="openExpenseEmpty">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Adicionar primeiro gasto
+
+                    </button>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= FOOTER ================= -->
+
+            <footer class="main-footer">
+
+                <span>
+                    Finora Finance System
+                </span>
+
+                <span>
+                    Desenvolvido para simplificar sua vida financeira.
+                </span>
+
+            </footer>
+
 
         </section>
 
+    </main>
+
+</div>
+
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal-overlay" id="expenseModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="card-eyebrow">
+                    NOVA MOVIMENTAÇÃO
+                </span>
+
+                <h2>
+                    Adicionar gasto
+                </h2>
+
+            </div>
+
+            <button class="modal-close" id="closeExpense">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <form action="{{ url_for('adicionar') }}" method="POST">
+
+            <div class="form-group">
+
+                <label for="descricao">
+                    Descrição
+                </label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-pen"></i>
+
+                    <input
+                        type="text"
+                        id="descricao"
+                        name="descricao"
+                        placeholder="Ex.: Mercado, gasolina..."
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="valor">
+                    Valor
+                </label>
+
+                <div class="input-wrapper money-input">
+
+                    <span class="currency">
+                        R$
+                    </span>
+
+                    <input
+                        type="text"
+                        id="valor"
+                        name="valor"
+                        placeholder="0,00"
+                        inputmode="decimal"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Categoria
+                </label>
+
+                <div class="category-selector">
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Alimentação"
+                               required>
+
+                        <span>
+                            <i class="fa-solid fa-utensils"></i>
+                            Alimentação
+                        </span>
+
+                    </label>
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Transporte">
+
+                        <span>
+                            <i class="fa-solid fa-car"></i>
+                            Transporte
+                        </span>
+
+                    </label>
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Moradia">
+
+                        <span>
+                            <i class="fa-solid fa-house"></i>
+                            Moradia
+                        </span>
+
+                    </label>
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Lazer">
+
+                        <span>
+                            <i class="fa-solid fa-gamepad"></i>
+                            Lazer
+                        </span>
+
+                    </label>
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Compras">
+
+                        <span>
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            Compras
+                        </span>
+
+                    </label>
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Contas">
+
+                        <span>
+                            <i class="fa-solid fa-lightbulb"></i>
+                            Contas
+                        </span>
+
+                    </label>
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Educação">
+
+                        <span>
+                            <i class="fa-solid fa-book"></i>
+                            Educação
+                        </span>
+
+                    </label>
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Saúde">
+
+                        <span>
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            Saúde
+                        </span>
+
+                    </label>
+
+
+                    <label class="category-option">
+
+                        <input type="radio"
+                               name="categoria"
+                               value="Outros">
+
+                        <span>
+                            <i class="fa-solid fa-box"></i>
+                            Outros
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button type="button"
+                        class="secondary-button"
+                        id="cancelExpense">
+
+                    Cancelar
+
+                </button>
+
+                <button type="submit"
+                        class="primary-button">
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Salvar gasto
+
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
 
+</div>
 
-    <script
-        src="{{ url_for('static', filename='script.js') }}"
-    ></script>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
-
 </html>
